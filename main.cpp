@@ -9,14 +9,23 @@
 struct Stick {
 	Stick() = default;
 	Stick(size_t startPieces) {
-		for(size_t i = 1; i <= startPieces; ++i) {
+		for(size_t i = startPieces; i >= 1; --i) {
 			d_pcs.push_back(i);
 		}
 	};
 	std::vector<int> d_pcs{};
 };
 
-using ThreeSticks = std::vector<Stick>;
+struct Hanoi {
+	Hanoi(size_t startPiecesNum) : d_sticks{new Stick(startPiecesNum), new Stick, new Stick} {};
+	~Hanoi() { for(size_t i = 0; i < 3; ++i) delete d_sticks.at(i);};
+	std::vector<Stick*> d_sticks{3};
+	void movePiece(size_t src, size_t dest) {
+		d_sticks.at(dest)->d_pcs.push_back(d_sticks.at(src)->d_pcs.back());
+		d_sticks.at(src)->d_pcs.pop_back();
+	}
+
+};
 
 int main() {
 	{
@@ -26,23 +35,21 @@ int main() {
 	{
 		Stick stick{5};
 		EXPECT((stick.d_pcs.size() == 5));
-		EXPECT((stick.d_pcs.at(3) == 4));
+		EXPECT((stick.d_pcs.at(3) == 2));
 	}
 	{
-		Stick a{5}; Stick b; Stick c;
-		ThreeSticks  hanoi{a, b, c};
+		Hanoi  hanoi{5};
 		size_t id{0};
-		EXPECT((hanoi.at(id).d_pcs.at(3) == 4));
+		EXPECT((hanoi.d_sticks.at(id)->d_pcs.at(0) == 5));
 		id = 2;
-		EXPECT((hanoi.at(id).d_pcs.size() == 0));
+		EXPECT((hanoi.d_sticks.at(id)->d_pcs.size() == 0));
 	}
 	{
-		Stick a{3}; Stick b; Stick c;
-		ThreeSticks  hanoi{a, b, c};
-		EXPECT((hanoi.at(0).d_pcs == {3,2,1}));
-		movePiece(0, 1);
-		EXPECT((hanoi.at(0).d_pcs == {3, 2}));
-		EXPECT((hanoi.at(0).d_pcs == {1}));
+		Hanoi  hanoi{2};
+		EXPECT((hanoi.d_sticks.at(0)->d_pcs == std::vector<int>{2,1}));
+		hanoi.movePiece(0, 1);
+		EXPECT((hanoi.d_sticks.at(0)->d_pcs == std::vector<int>{2}));
+		EXPECT((hanoi.d_sticks.at(1)->d_pcs == std::vector<int>{1}));
 	}
 	return 0;
 }
