@@ -51,5 +51,13 @@ int main() {
 		EXPECT((hanoi.d_sticks.at(0)->d_pcs == std::vector<int>{2}));
 		EXPECT((hanoi.d_sticks.at(1)->d_pcs == std::vector<int>{1}));
 	}
+	{
+		Hanoi  hanoi{5};
+		EXPECT((hanoi.d_sticks.at(0)->d_pcs == std::vector<int>{5,4,3,2,1}));
+		EXPECT((hanoi.d_sticks.at(2)->d_pcs.size() == 0));
+		hanoi.play(0, 2, 1, 5);
+		EXPECT((hanoi.d_sticks.at(0)->d_pcs.size() == 0));
+		EXPECT((hanoi.d_sticks.at(2)->d_pcs == std::vector<int>{5,4,3,2,1}));
+	}
 	return 0;
 }
