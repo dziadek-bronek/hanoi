@@ -24,7 +24,15 @@ struct Hanoi {
 		d_sticks.at(dest)->d_pcs.push_back(d_sticks.at(src)->d_pcs.back());
 		d_sticks.at(src)->d_pcs.pop_back();
 	}
-
+	void play(size_t src, size_t dest, size_t free, size_t pcs) {
+		if (pcs == 1) {
+			movePiece(src, dest);
+			return;
+		}
+		play(src, free, dest, pcs - 1);
+		movePiece(src, dest);
+		play(free, dest, src, pcs - 1);
+	}
 };
 
 int main() {
