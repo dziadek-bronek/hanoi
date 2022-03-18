@@ -26,5 +26,12 @@ int main() {
 		EXPECT((stick.d_pcs.size() == 5));
 		EXPECT((stick.d_pcs.at(3) == 4));
 	}
+	{
+		ThreeSticks  hanoi{Stick stick{5}, Stick stick, Stick stick}
+		size_t id{0};
+		EXPECT((hanoi.at(id).d_pcs.at(3) == 4));
+		id = 2
+		EXPECT((hanoi.at(id).d_pcs.size() == 0));
+	}
 	return 0;
 }
