@@ -16,6 +16,8 @@ struct Stick {
 	std::vector<int> d_pcs{};
 };
 
+using ThreeSticks = std::vector<Stick>;
+
 int main() {
 	{
 		Stick stick;
@@ -27,10 +29,11 @@ int main() {
 		EXPECT((stick.d_pcs.at(3) == 4));
 	}
 	{
-		ThreeSticks  hanoi{Stick stick{5}, Stick stick, Stick stick}
+		Stick a{5}; Stick b; Stick c;
+		ThreeSticks  hanoi{a, b, c};
 		size_t id{0};
 		EXPECT((hanoi.at(id).d_pcs.at(3) == 4));
-		id = 2
+		id = 2;
 		EXPECT((hanoi.at(id).d_pcs.size() == 0));
 	}
 	return 0;
