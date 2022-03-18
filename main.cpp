@@ -36,5 +36,13 @@ int main() {
 		id = 2;
 		EXPECT((hanoi.at(id).d_pcs.size() == 0));
 	}
+	{
+		Stick a{3}; Stick b; Stick c;
+		ThreeSticks  hanoi{a, b, c};
+		EXPECT((hanoi.at(0).d_pcs == {3,2,1}));
+		movePiece(0, 1);
+		EXPECT((hanoi.at(0).d_pcs == {3, 2}));
+		EXPECT((hanoi.at(0).d_pcs == {1}));
+	}
 	return 0;
 }
