@@ -14,6 +14,15 @@ struct Stick {
 		}
 	};
 	std::vector<int> d_pcs{};
+#ifdef DBG
+	void display() {
+		std::cout << '|';
+		for(auto i = d_pcs.begin(); i != d_pcs.end(); ++i) {
+			std::cout << *i;
+		}
+		std::cout << std::endl;
+	}
+#endif
 };
 
 struct Hanoi {
@@ -24,6 +33,9 @@ struct Hanoi {
 	void movePiece(size_t src, size_t dest) {
 		getStick(dest).push_back(getStick(src).back());
 		getStick(src).pop_back();
+#ifdef DBG
+		display();
+#endif
 	}
 	void play(size_t src, size_t dest, size_t free, size_t pcs) {
 		if (pcs == 1) {
@@ -34,6 +46,14 @@ struct Hanoi {
 		movePiece(src, dest);
 		play(free, dest, src, pcs - 1);
 	}
+#ifdef DBG
+	void display() {
+		for(size_t i = 0; i < 3; ++i) {
+			d_sticks.at(i)->display();
+		}
+		std::cout << "---------------" << std::endl;
+	}
+#endif
 };
 
 int main() {
@@ -67,6 +87,9 @@ int main() {
 		Hanoi  hanoi{5};
 		EXPECT((hanoi.getStick(0) == std::vector<int>{5,4,3,2,1}));
 		EXPECT((hanoi.getStick(2).size() == 0));
+#ifdef DBG
+		hanoi.display();
+#endif
 		hanoi.play(0, 2, 1, 5);
 		EXPECT((hanoi.getStick(0).size() == 0));
 		EXPECT((hanoi.getStick(2) == std::vector<int>{5,4,3,2,1}));
