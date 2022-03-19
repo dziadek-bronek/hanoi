@@ -30,6 +30,12 @@ struct Hanoi {
 	~Hanoi() { for(size_t i = 0; i < 3; ++i) delete d_sticks.at(i);};
 	std::vector<int>& getStick(size_t i) {return *(d_sticks.at(i));}
 	void movePiece(size_t src, size_t dest) {
+		if(getStick(src).size() == 0) {
+			return;
+		}
+		if(getStick(dest).size() and getStick(src).back() > getStick(dest).back()) {
+			return;
+		}
 		getStick(dest).push_back(getStick(src).back());
 		getStick(src).pop_back();
 #ifdef DISPLAY_STICKS
@@ -106,6 +112,9 @@ int main() {
 #endif
 		hanoi.movePiece(0, 1);
 		hanoi.movePiece(0, 1);
+#ifdef DISPLAY_STICKS
+		hanoi.display();
+#endif
 		EXPECT((hanoi.getStick(1).size() == 1));
 	}
 	return 0;
