@@ -99,5 +99,14 @@ int main() {
 		EXPECT((hanoi.getStick(0).size() == 0));
 		EXPECT((hanoi.getStick(2) == Stick(5)));
 	}
+	{
+		Hanoi hanoi(5);
+#ifdef DISPLAY_STICKS
+		hanoi.display();
+#endif
+		hanoi.movePiece(0, 1);
+		hanoi.movePiece(0, 1);
+		EXPECT((hanoi.getStick(1).size() == 1));
+	}
 	return 0;
 }
